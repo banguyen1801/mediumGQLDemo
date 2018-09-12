@@ -1,0 +1,12 @@
+{
+  "pets": [
+    { "id": "1", "name": "Pooch", "age": 9, "species": "dog", "ownerId": 1 },
+    { "id": "2", "name": "Mitsy", "age": 6, "species": "cat", "ownerId": 2 },
+    { "id": "3", "name": "Mushy", "age": 2, "species": "cat", "ownerId": 2 },
+    { "id": "4", "name": "Po", "age": 4, "species": "panda", "ownerId": 1 }
+  ],
+  "owners": [
+    { "id": 1, "name": "Oz", "fact": "Likes to walk dogs" },
+    { "id": 2, "name": "Surna", "fact": "Queens of Cats" }
+  ]
+}
