@@ -6,6 +6,7 @@ const {
 } = require('graphql');
 const { PetType, OwnerType } = require('../schema');
 const axios = require('axios');
+const mutation = require('./mutation');
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -39,4 +40,4 @@ const RootQuery = new GraphQLObjectType({
   }
 });
 
-module.exports = new GraphQLSchema({ query: RootQuery });
+module.exports = new GraphQLSchema({ query: RootQuery, mutation });
