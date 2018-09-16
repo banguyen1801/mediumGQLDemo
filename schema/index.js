@@ -2,23 +2,37 @@ const {
   GraphQLObjectType,
   GraphQLString,
   GraphQLInt,
-  GraphQLID
+  GraphQLID,
+  GraphQLList
 } = require('graphql');
 
 const axios = require('axios');
 
 const OwnerType = new GraphQLObjectType({
   name: 'Owner',
-  fields: {
+  fields: () => ({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
-    fact: { type: GraphQLString }
-  }
+    fact: { type: GraphQLString },
+    pets: {
+      type: new GraphQLList(PetType),
+      async resolve(parentValue, args) {
+        try {
+          let ownerPets = await axios.get(
+            `http://localhost:3000/owners/${parentValue.id}/pets`
+          );
+          return ownerPets.data;
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    }
+  })
 });
 
 const PetType = new GraphQLObjectType({
   name: 'Pet',
-  fields: {
+  fields: () => ({
     id: { type: GraphQLString },
     name: { type: GraphQLString },
     age: { type: GraphQLInt },
@@ -26,7 +40,6 @@ const PetType = new GraphQLObjectType({
     owner: {
       type: OwnerType,
       async resolve(parentValue, args) {
-        // console.log(parentValue);
         try {
           let ownerInfo = await axios.get(
             `http://localhost:3000/owners/${parentValue.ownerId}`
@@ -37,7 +50,7 @@ const PetType = new GraphQLObjectType({
         }
       }
     }
-  }
+  })
 });
 
 module.exports = { PetType, OwnerType };
