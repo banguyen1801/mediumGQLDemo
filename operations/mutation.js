@@ -48,6 +48,27 @@ const mutation = new GraphQLObjectType({
           console.log(err);
         }
       }
+    },
+    updatePet: {
+      type: PetType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+        name: { type: GraphQLString },
+        age: { type: GraphQLInt },
+        species: { type: GraphQLString },
+        ownerId: { type: GraphQLID }
+      },
+      async resolve(parentValue, args) {
+        try {
+          const pet = await axios.patch(
+            `http://localhost:3000/pets/${args.id}`,
+            args
+          );
+          return pet.data;
+        } catch (err) {
+          console.log(err);
+        }
+      }
     }
   }
 });
